@@ -6,19 +6,19 @@ import { ethers, formatEther } from "ethers"
 import { useLotteryEventListener } from "./EventListener.js"
 
 export default function LotteryEntrance() {
-    //let counter
     const { chainId: chainIdHex, isWeb3Enabled } = useMoralis()
     const chainId = parseInt(chainIdHex)
     const raffleAddress = chainId in contractAddresses ? contractAddresses[chainId][0] : null
     const [entranceFee, setEntranceFee] = useState("0") // Why do we use State hook instead of let?
     const [NumPlayers, setNumPlayers] = useState("0") // Because "let" will not triger the rerender for as, but State Hook will
     const [RecentWinner, setRecentWinner] = useState("0")
-    //let lastWinner, currentWinner
 
     const dispatch = useNotification()
 
-    const provider = new ethers.JsonRpcProvider("http://localhost:8545/")
+    const provider = new ethers.JsonRpcProvider("http://localhost:8545/") //change this if you are using real network
     const raffleContract = new ethers.Contract(raffleAddress, abi, provider)
+
+    //Functions
 
     const {
         runContractFunction: enterRaffle,
@@ -52,11 +52,6 @@ export default function LotteryEntrance() {
         functionName: "getRecentWinner",
         params: {},
     })
-
-    // async function getlastWinner() {
-    //     lastWinner = await getRecentWinner()
-    // }
-
     const handleNewNotification = () => {
         dispatch({
             type: "info",
@@ -77,8 +72,6 @@ export default function LotteryEntrance() {
         }
     }
 
-    //Functions
-
     async function updateUIValues() {
         const entranceFeeFromCall = (await getEntranceFee()).toString()
         const numPlayersFromCall = (await getPlayersNumber()).toString()
@@ -96,26 +89,7 @@ export default function LotteryEntrance() {
         }
     }, [isWeb3Enabled])
 
-    useLotteryEventListener(raffleContract, updateUIValues, provider, NumPlayers)
-
-    // useEffect(() => {
-    //     console.log("111111111")
-    //     if (isWeb3Enabled && raffleContract) {
-    //         console.log("12222")
-    //         async function update() {
-    //             //getlastWinner()
-    //             //currentWinner = await getRecentWinner()
-    //             console.log(lastWinner)
-    //             console.log("2222222222")
-    //             if (lastWinner !== currentWinner) {
-    //                 console.log("33333333333")
-    //                 updateUIValues()
-    //                 lastWinner = currentWinner
-    //             }
-    //         }
-    //         update()
-    //     }
-    // }, [raffleContract])
+    useLotteryEventListener(raffleContract, updateUIValues, provider)
 
     // Return
     return (
