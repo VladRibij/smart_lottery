@@ -30,10 +30,8 @@ const networkConfig = {
 
 const developmentChains = ["hardhat", "localhost"]
 const VERIFICATION_BLOCK_CONFIRMATIONS = 6
-const frontEndContractsFile =
-    "../nextjs-smartcontract-lottery-fcc-main/constants/contractAddresses.json"
-const frontEndAbiFile = "../nextjs-smartcontract-lottery-fcc-main/constants/abi.json"
-const frontEndJsonRpc = "../../../../nextjs-smartcontract-lottery-fcc-main/constants/jsonRpc.json"
+const frontEndContractsFile = "../smart-lottery/constants/contractAddresses.json"
+const frontEndAbiFile = "../smart-lottery/constants/abi.json"
 
 module.exports = {
     networkConfig,
